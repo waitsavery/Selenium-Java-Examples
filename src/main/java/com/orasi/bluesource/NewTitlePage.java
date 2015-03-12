@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.Constants;
 import com.orasi.utils.PageLoaded;
 
 public class NewTitlePage {
@@ -41,7 +42,7 @@ public class NewTitlePage {
 
 	//method to create a new title
 	public void createNewTitle(String newTitle){
-		if(System.getProperty("browser").equalsIgnoreCase("safari")){
+		if(System.getProperty(Constants.BROWSER).equalsIgnoreCase("safari")){
 			txtTitle.set(newTitle);	
 		}else{
 			txtTitle.safeSet(newTitle);

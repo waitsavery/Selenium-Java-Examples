@@ -11,7 +11,7 @@ import com.api.predic8.ArticleServicePTBinding.operations.Create;
 import com.api.predic8.ArticleServicePTBinding.operations.Delete;
 import com.api.predic8.ArticleServicePTBinding.operations.Get;
 import com.api.predic8.ArticleServicePTBinding.operations.GetAll;
-import com.orasi.utils.Constants;
+import com.selenium.Constants;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
 
 public class CRUD {

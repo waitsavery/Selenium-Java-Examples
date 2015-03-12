@@ -2,7 +2,7 @@ package com.api.predic8.CRMServicePTBinding.operations;
 
 import com.api.predic8.CRMServicePTBinding.CRMServicePTBinding;
 import com.orasi.utils.XMLTools;
-import com.orasi.utils.Constants;
+import com.selenium.Constants;
 
 public class Create extends CRMServicePTBinding{
 	public Create(String environment, String scenario) {

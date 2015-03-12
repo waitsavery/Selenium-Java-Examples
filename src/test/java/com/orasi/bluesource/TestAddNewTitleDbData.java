@@ -60,7 +60,6 @@ public class TestAddNewTitleDbData {
     
     @AfterMethod(groups = { "regression" })
     public synchronized void closeSession(ITestResult test){
-	System.out.println(test.getMethod().getMethodName());
 	WebDriver driver = drivers.get(test.getMethod().getMethodName());   
 	
 	//if is a failure, then take a screenshot
@@ -93,7 +92,6 @@ public class TestAddNewTitleDbData {
 		browserUnderTest, browserVersion, operatingSystem, runLocation,
 		environment);
 	WebDriver driver = setup.initialize();
-	System.out.println(testName);
 	drivers.put(testName, driver);
 
 	// Login
