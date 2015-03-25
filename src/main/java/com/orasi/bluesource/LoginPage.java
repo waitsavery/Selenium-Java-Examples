@@ -1,4 +1,5 @@
 package com.orasi.bluesource;
+
 import java.util.ResourceBundle;
 
 import org.openqa.selenium.WebDriver;
@@ -54,7 +55,7 @@ public class LoginPage {
 		 
 		driver.switchTo().defaultContent();
 		
-		if(System.getProperty(Constants.BROWSER).equalsIgnoreCase("safari")){
+		if(System.getProperty("browser").equalsIgnoreCase("safari")){
 			txtUsername.set(username);	
 		}else{
 			txtUsername.safeSet(username);

@@ -42,7 +42,7 @@ public class NewTitlePage {
 
 	//method to create a new title
 	public void createNewTitle(String newTitle){
-		if(System.getProperty(Constants.BROWSER).equalsIgnoreCase("safari")){
+		if(System.getProperty("browser").equalsIgnoreCase("safari")){
 			txtTitle.set(newTitle);	
 		}else{
 			txtTitle.safeSet(newTitle);
