@@ -6,13 +6,13 @@
 	<version>1.0.0</version>
 	<properties>
 		<testNGSourceDirectory>src/test/resources/bluesource/testngXMLs</testNGSourceDirectory>
-		<orasiCoreVersion>1.0.1</orasiCoreVersion>
+		<orasiCoreVersion>1.0.3</orasiCoreVersion>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>Orasi-Selenium-Java-Core</id>
-			<url>https://github.com/Orasi/Selenium-Java-Core/Selenium-Java-Core/raw/master/lib/releases</url>
+			<url>https://github.com/Orasi/Selenium-Java-Core/raw/master/lib/releases</url>
 		</repository>
 		<repository>
 			<id>eviware</id>
@@ -32,7 +32,6 @@
 			<version>${orasiCoreVersion}</version>
 			<classifier>jar-with-dependencies</classifier>
 		</dependency>
-
 	</dependencies>
 
 	<build>

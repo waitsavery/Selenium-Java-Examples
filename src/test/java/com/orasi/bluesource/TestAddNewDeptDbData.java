@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import com.orasi.utils.Constants;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.Screenshot;
-import com.orasi.utils.WebDriverSetup;
+import com.orasi.utils.WebDriverSetup_old;
 import com.orasi.utils.dataProviders.DatabaseDataProvider;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
 import com.orasi.bluesource.DepartmentsPage;
@@ -82,7 +82,7 @@ public class TestAddNewDeptDbData {
 	
 	String testName = new Object(){}.getClass().getEnclosingMethod().getName();
 
-	WebDriverSetup setup = new WebDriverSetup(application,
+	WebDriverSetup_old setup = new WebDriverSetup_old(application,
 		browserUnderTest, browserVersion, operatingSystem, runLocation,
 		environment);
 	WebDriver driver = setup.initialize();
