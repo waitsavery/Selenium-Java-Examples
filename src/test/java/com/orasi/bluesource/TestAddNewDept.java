@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import com.selenium.Constants;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.Screenshot;
+import com.orasi.utils.WebDriverSetup;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
 import com.orasi.bluesource.DepartmentsPage;
 import com.orasi.bluesource.LoginPage;
@@ -82,7 +83,8 @@ public class TestAddNewDept {
 	String testName = new Object() {
 	}.getClass().getEnclosingMethod().getName();
 
-	WebDriver driver = initialize();
+	WebDriverSetup setup = new WebDriverSetup(application,  browserUnderTest, browserVersion, operatingSystem, runLocation,  environment, testName);
+	WebDriver driver = setup.initialize();
 
 	// Login
 	LoginPage loginPage = new LoginPage(driver);

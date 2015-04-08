@@ -10,10 +10,7 @@ import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 
-
-
-
-public class AddNewEmployeePage {
+public class AddNewEmployeePage{
 
 	private WebDriver driver;
 	private StringBuffer verificationErrors = new StringBuffer();

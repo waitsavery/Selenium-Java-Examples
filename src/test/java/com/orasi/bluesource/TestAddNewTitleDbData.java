@@ -20,7 +20,7 @@ import com.orasi.utils.Base64Coder;
 import com.orasi.utils.Constants;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.Screenshot;
-import com.orasi.utils.WebDriverSetup_old;
+import com.orasi.utils.WebDriverSetup;
 import com.orasi.utils.dataProviders.CSVDataProvider;
 import com.orasi.utils.dataProviders.DatabaseDataProvider;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
@@ -88,7 +88,7 @@ public class TestAddNewTitleDbData {
 	
 	TestReporter.setPrintToConsole(true);
 	
-	WebDriverSetup_old setup = new WebDriverSetup_old(application,
+	WebDriverSetup setup = new WebDriverSetup(application,
 		browserUnderTest, browserVersion, operatingSystem, runLocation,
 		environment);
 	WebDriver driver = setup.initialize();
