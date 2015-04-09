@@ -1,5 +1,6 @@
 package com.api.github;
 
+@SuppressWarnings("unused")
 public class Organization {
 	private String login;
 	private String id;

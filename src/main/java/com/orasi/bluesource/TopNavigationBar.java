@@ -8,10 +8,40 @@ import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
 import com.orasi.core.interfaces.Link;
 
-public class TopNavigationBar {
-	private WebDriver driver;
-	
-	//All the page elements:
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.orasi.core.interfaces.Button;
+import com.orasi.core.interfaces.Label;
+import com.orasi.core.interfaces.Listbox;
+import com.orasi.core.interfaces.Textbox;
+import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.PageLoaded;
+import com.orasi.utils.TestEnvironment;
+
+/**
+ * @summary Contains the fields and method for interacting with the TopNavigationBar
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class TopNavigationBar extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
+
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(linkText = "Logout")
 	private Link lnkLogout;
 	
@@ -24,29 +54,21 @@ public class TopNavigationBar {
 	@FindBy(css = "a[href = '/admin/titles']")
 	private Link lnkTitle;
 	
-
 	// *********************
 	// ** Build page area **
 	// *********************
-	public TopNavigationBar(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public TopNavigationBar(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
-	
-	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, lnkLogout); 
-		  
-	}
-	
-	public TopNavigationBar initialize() {
-		return ElementFactory.initElements(driver,
-				this.getClass());       
-	 }
 
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-
+	// *************************
+	// *** Page Interactions ***
+	// *************************
 	public void clickAdminLink(){
 		lnkAdminDrop.click();
 	}
@@ -57,12 +79,14 @@ public class TopNavigationBar {
 		lnkTitle.click();
 	}
 	
-	//Verify logout link is displayed
+	/**
+	 * @summary verifies if the user is logged in
+	 * @return boolean; returns true if the user is logged in, false otherwise
+	 */
 	public boolean isLoggedIn(){
 		return lnkLogout.isDisplayed();
 	}
 	
-	//Click logout
 	public void logout(){
 		lnkLogout.click();
 	}

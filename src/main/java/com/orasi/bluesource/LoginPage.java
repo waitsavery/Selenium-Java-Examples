@@ -10,11 +10,24 @@ import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
 import com.orasi.utils.Constants;
+import com.orasi.utils.TestEnvironment;
 
-public class LoginPage {
-	private WebDriver driver;
-	
-	//all the page elements
+/**
+ * @summary Contains the fields and method for interacting with the LoginPage
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class LoginPage  extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
+
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(id = "employee_username")
 	private Textbox txtUsername;
 	
@@ -23,44 +36,42 @@ public class LoginPage {
 	
 	@FindBy(name = "commit")
 	private Button btnLogin;
-	
+
 	// *********************
 	// ** Build page area **
 	// *********************
-	public LoginPage(WebDriver driver) {
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public LoginPage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
 
-	public boolean pageLoaded() {
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, btnLogin);
-	}
-
-	public LoginPage initialize() {
-		return ElementFactory.initElements(driver, this.getClass());
-	}
-
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-	
+	// *************************
+	// *** Page Interactions ***
+	// *************************
+	/**
+	 * @summary enters a username, password and clicks the login button to login to the application
+	 * @param role - determines the level of access for the user login and retrieves an appropriate user
+	 */
 	public void login(String role) {
 		final String username;
 		final String password;
 		final ResourceBundle userCredentialRepo = ResourceBundle.getBundle(Constants.USER_CREDENTIALS_PATH);
 		
 		username = userCredentialRepo.getString("BLUESOURCE_" + role.toUpperCase());
-		//password = userCredentialRepo.getString("BLUESOURCE_PASSWORD");
 		password = userCredentialRepo.getString("BLUESOURCE_ENCODED_PASSWORD");
 		 
-		driver.switchTo().defaultContent();
-		
-		if(System.getProperty(Constants.BROWSER).equalsIgnoreCase("safari")){
-			txtUsername.set(username);	
+		getDriver().switchTo().defaultContent();
+
+		if(getBrowserUnderTest().equalsIgnoreCase("safari")){
+			txtUsername.set(username);
 		}else{
 			txtUsername.safeSet(username);
 		}
-		//txtPassword.safeSet(password);
+		
 		txtPassword.setSecure(password);
 		btnLogin.click();
 	}

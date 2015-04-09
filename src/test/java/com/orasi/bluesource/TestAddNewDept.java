@@ -16,55 +16,48 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.selenium.Constants;
+import com.orasi.utils.TestEnvironment;
+import com.orasi.utils.TestNgTestClassMethods;
 import com.orasi.utils.TestReporter;
-import com.orasi.utils.Screenshot;
-import com.orasi.utils.WebDriverSetup;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
 import com.orasi.bluesource.DepartmentsPage;
 import com.orasi.bluesource.LoginPage;
 import com.orasi.bluesource.NewDeptPage;
 import com.orasi.bluesource.TopNavigationBar;
 
-public class TestAddNewDept {
-
-    private String application = "";
-    private String browserUnderTest = "";
-    private String browserVersion = "";
-    private String operatingSystem = "";
-    private String runLocation = "";
-    private String environment = "";
-    private Map<String, WebDriver> drivers = new HashMap<String, WebDriver>();
-
+@SuppressWarnings("unused")
+public class TestAddNewDept extends com.selenium.testClassTemplates.TestClassTemplate{
+    private String application = "Bluesource";
+	
+	/*
+	 * Define a collection of webdrivers and test names inside a Map.
+	 * This allows for more than one driver to be used within a test class.
+	 * This also allows for a particular driver to be tied to a specific test 
+	 * based on test name.
+	 */
+	private Map<String, WebDriver> drivers = new HashMap<String, WebDriver>();
+	
+	// **************
+	// Data Provider
+	// **************
     @DataProvider(name = "dataScenario")
     public Object[][] scenarios() {
-	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH
-		+ "TestAddNewDept.xlsx", "TestAddNewDept").getTestData();
+		return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH
+			+ "TestAddNewDept.xlsx", "TestAddNewDept").getTestData();
     }
 
-    @BeforeTest(groups = { "regression" })
-    @Parameters({ "runLocation", "browserUnderTest", "browserVersion",
-	    "operatingSystem", "environment" })
-    public void setup(@Optional String runLocation, String browserUnderTest,
-	    String browserVersion, String operatingSystem, String environment) {
-	this.application = "Bluesource";
-	this.runLocation = runLocation;
-	this.browserUnderTest = browserUnderTest;
-	this.browserVersion = browserVersion;
-	this.operatingSystem = operatingSystem;
-	this.environment = environment;
-
-    }
-
-    @AfterMethod(groups = { "regression" })
-    public synchronized void closeSession(ITestResult test) {
-	WebDriver driver = drivers.get(test.getMethod().getMethodName());
-
-	// if is a failure, then take a screenshot
-	if (test.getStatus() == ITestResult.FAILURE) {
-	    new Screenshot().takeScreenShot(test, driver);
+	// *********************
+	// Before-Test Behavior
+	// *********************
+	@BeforeTest(groups = { "regression" })
+	@Parameters({ "runLocation", "browserUnderTest", "browserVersion",
+			"operatingSystem", "environment" })
+	public void setupClass(String runLocation, String browserUnderTest,
+			String browserVersion, String operatingSystem, String environment) {
+		this.te = new TestEnvironment(application, browserUnderTest, browserVersion, operatingSystem,
+				runLocation, environment);
+		this.test = new TestNgTestClassMethods(application, this.te);
 	}
-	driver.quit();
-    }
 
     /**
      * @throws IOException 
@@ -80,53 +73,51 @@ public class TestAddNewDept {
     public void testCreateNewDept(String testScenario, String role,
 	    String newDept) throws InterruptedException, IOException {
 	
-	String testName = new Object() {
-	}.getClass().getEnclosingMethod().getName();
+    	this.testName = new Object(){}.getClass().getEnclosingMethod().getName() 
+				+ "_" + this.te.getOperatingSystem()
+				+ "_" + this.te.getBrowserUnderTest()
+				+ "_" + this.te.getBrowserVersion();
 
-	WebDriverSetup setup = new WebDriverSetup(application,  browserUnderTest, browserVersion, operatingSystem, runLocation,  environment, testName);
-	WebDriver driver = setup.initialize();
-
-	// Login
-	LoginPage loginPage = new LoginPage(driver);
-	TestReporter.assertTrue(loginPage.pageLoaded(),
-		"Verify login page is displayed");
-	loginPage.login(role);
-
-	// Verify user is logged in
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
-	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
-
-	// Navigate to the dept page
-	topNavigationBar.clickAdminLink();
-	topNavigationBar.clickDepartmentsLink();
-
-	// Verify navigated to the dept page
-	DepartmentsPage deptPage = new DepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),
-		"Verify list of departments page is displayed");
-
-	// Add a new dept
-	deptPage.clickAddDeptLink();
-	NewDeptPage newDeptPage = new NewDeptPage(driver);
-	TestReporter.assertTrue(newDeptPage.pageLoaded(),
-		"Verify add new department page is displayed");
-	newDeptPage.CreateNewDept(newDept);
-
-	// Verify the dept is added
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-	TestReporter.log("New Dept was created: " + newDept);
-
-	// Verify the dept is displayed on the dept results table
-	TestReporter.assertTrue(deptPage.searchTableByDept(newDept), "Validate new department exists in table");
-
-	// Delete the new dept
-	deptPage.deleteDept(newDept);
-
-	// Verify the title is deleted
-	DepartmentsPage refreshedPage = new DepartmentsPage(driver);
-	TestReporter.assertTrue(refreshedPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	// logout
-	topNavigationBar.logout();
+		this.te.setDriver(this.test.testStart(this.testName, this.te));
+	
+		// Login
+		LoginPage loginPage = new LoginPage(this.te);
+		TestReporter.assertTrue(this.te.pageLoaded(),	"Verify login page is displayed");
+		loginPage.login(role);
+	
+		// Verify user is logged in
+		TopNavigationBar topNavigationBar = new TopNavigationBar(this.te);
+		TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
+	
+		// Navigate to the dept page
+		topNavigationBar.clickAdminLink();
+		topNavigationBar.clickDepartmentsLink();
+	
+		// Verify navigated to the dept page
+		DepartmentsPage deptPage = new DepartmentsPage(this.te);
+		TestReporter.assertTrue(this.te.pageLoaded(), "Verify list of departments page is displayed");
+	
+		// Add a new dept
+		deptPage.clickAddDeptLink();
+		NewDeptPage newDeptPage = new NewDeptPage(this.te);
+		TestReporter.assertTrue(this.te.pageLoaded(), "Verify add new department page is displayed");
+		newDeptPage.CreateNewDept(newDept);
+	
+		// Verify the dept is added
+		TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
+		TestReporter.log("New Dept was created: " + newDept);
+	
+		// Verify the dept is displayed on the dept results table
+		TestReporter.assertTrue(deptPage.searchTableByDept(newDept), "Validate new department exists in table");
+	
+		// Delete the new dept
+		deptPage.deleteDept(newDept);
+	
+		// Verify the department is deleted
+		DepartmentsPage refreshedPage = new DepartmentsPage(this.te);
+		TestReporter.assertTrue(refreshedPage.isSuccessMsgDisplayed(), "Validate success message appears");
+	
+		// logout
+		topNavigationBar.logout();
     }
 }

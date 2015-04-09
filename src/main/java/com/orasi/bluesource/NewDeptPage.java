@@ -7,12 +7,24 @@ import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
+import com.orasi.utils.TestEnvironment;
 
-public class NewDeptPage {
+/**
+ * @summary Contains the fields and method for interacting with the NewDeptPage
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class NewDeptPage extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
 
-	private WebDriver driver;
-
-	//All the page elements
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(id = "department_name")
 	private Textbox txtDept;
 	
@@ -25,27 +37,22 @@ public class NewDeptPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public NewDeptPage(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public NewDeptPage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
-	
-	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, txtDept); 
-		  
-	}
-	
-	public NewDeptPage initialize() {
-		return ElementFactory.initElements(driver,
-				this.getClass());       
-	 }
 
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-	
-	
-	//method to create a new title
+	// *************************
+	// *** Page Interactions ***
+	// *************************
+	/**
+	 * @summary enters a new department name and clicks the button to create it
+	 * @param dept - name of the department to be created
+	 */
 	public void CreateNewDept(String dept){
 		txtDept.safeSet(dept);
 		btnCreateDept.click();

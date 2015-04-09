@@ -6,7 +6,7 @@
 	<version>1.0.0</version>
 	<properties>
 		<testNGSourceDirectory>src/test/resources/bluesource/testngXMLs</testNGSourceDirectory>
-		<orasiCoreVersion>1.0.3</orasiCoreVersion>
+		<orasiCoreVersion>1.0.4</orasiCoreVersion>
 	</properties>
 
 	<repositories>
@@ -36,7 +36,6 @@
 			<groupId>com.saucelabs</groupId>
 			<artifactId>sauce_testng</artifactId>
 			<version>2.1.18</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -62,7 +61,7 @@
 
 						<!-- parameterized testNG suite via maven <suiteXmlFiles> -->
 						<suiteXmlFiles>
-							<!-- <suiteXmlFile>${testNGSourceDirectory}/TestAddNewTitle.xml</suiteXmlFile> -->
+							<suiteXmlFile>${testNGSourceDirectory}/TestAddNewTitle.xml</suiteXmlFile>
 						</suiteXmlFiles>
 					</configuration>
 				</plugin>

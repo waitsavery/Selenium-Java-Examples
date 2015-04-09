@@ -10,7 +10,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +26,7 @@ public class OrganizationRepositoriesTest {
 	 */
 	
 	String teamsURL=null;
+	@SuppressWarnings({ "unchecked", "unused" })
 	@Test
 	public void orgReposTreeTest() throws ClientProtocolException, IOException{
 		String gitHubOrg = "orasi";

@@ -17,12 +17,24 @@ import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
+import com.orasi.utils.TestEnvironment;
 
-public class TimeOffDetailsPage {
-	
-	private WebDriver driver;
-	
-	//All the page elements
+/**
+ * @summary Contains the fields and method for interacting with the TimeOffDetailsPage
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class TimeOffDetailsPage extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
+
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(id = "new_vacation_date_requested")
 	private Textbox txtDateRequested;
 	
@@ -53,42 +65,55 @@ public class TimeOffDetailsPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public TimeOffDetailsPage(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public TimeOffDetailsPage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
-	
-	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, txtDateRequested); 
-		  
-	}
-	
-	public TimeOffDetailsPage initialize() {
-		return ElementFactory.initElements(driver,
-				this.getClass());       
-	 }
 
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-
+	// *************************
+	// *** Page Interactions ***
+	// *************************
+	/**
+	 * @summary determines if a success message is displayed
+	 * @return boolean; true if it is displayed, flase otherwise
+	 */
 	public boolean isSuccessMsgDisplayed(){
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		WebDriverWait wait = new WebDriverWait(getDriver(), 5);
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".alert-success.alert-dismissable")));
 		return lblSuccessMsg.isDisplayed();
 	}
 	
+	/**
+	 * @summary returns the message text
+	 * @return String; message text
+	 */
 	public String getSuccessMsgText(){
 		return lblSuccessMsg.getText();
 	}
 	
+	/**
+	 * @summary method to build an Action that hovers over a particular element
+	 * @param element - WebElement over which to hover
+	 */
 	public void hoverOverElement(WebElement element){
-		Actions builder = new Actions(driver);
+		Actions builder = new Actions(getDriver());
 		Actions hoverOverRegistrar = builder.moveToElement(element);
 		hoverOverRegistrar.perform();
 	}
 	
-	//Enter time off
+	/**
+	 * @summary enters and saves time off requests
+	 * @param dateRequested - date that the request was submitted
+	 * @param startDate - start date for the time off
+	 * @param endDate - end date for the time off
+	 * @param vacationType - type of time off request
+	 * @param otherReason - field for user input for requests not covered by the enumerated types
+	 * @param halfDay - boolean String; indicates whether the request is for a half day
+	 */
 	public void enterTimeOff(String dateRequested, String startDate, String endDate, String vacationType,
 								String otherReason, String halfDay ) {
 		//Enter the data
@@ -110,31 +135,34 @@ public class TimeOffDetailsPage {
 			wait.until(ExpectedConditions.visibilityOf(btnHalfDay));
 			btnHalfDay.click();
 		}
-		
 
 		btnSave.click();
-
 	}
 	
-	//Delete a specific time off entry
+	/**
+	 * @summary deletes a time off request
+	 * @param startDate - start date for the time off to be deleted
+	 * @param endDate - end date for the time off to be deleted
+	 */
 	public void DeleteTimeOff(String startDate, String endDate){
 		
 	}
 	
-	//Clean up - delete all the time off requests
+	/**
+	 * @summary deletes all time off requests
+	 * @return N/A
+	 */
 	public void DeleteAllTimeOff(){
 		
-		List<WebElement> deleteIconsList = driver.findElements(By.cssSelector("a[data-method = 'delete']"));
+		List<WebElement> deleteIconsList = getDriver().findElements(By.cssSelector("a[data-method = 'delete']"));
 		if (deleteIconsList.size() > 0){
 			for(WebElement element:deleteIconsList){
 				element.click();
 				
 				//accept the alert that pops up
-				Alert alert = driver.switchTo().alert();
+				Alert alert = getDriver().switchTo().alert();
 				alert.accept();
 			}
 		}
-
 	}
-	
 }

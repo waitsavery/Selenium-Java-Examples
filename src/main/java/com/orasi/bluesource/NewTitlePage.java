@@ -9,11 +9,30 @@ import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.Constants;
 import com.orasi.utils.PageLoaded;
 
-public class NewTitlePage {
-	
-	private WebDriver driver;
+import org.openqa.selenium.support.FindBy;
 
-	//All the page elements
+import com.orasi.core.interfaces.Button;
+import com.orasi.core.interfaces.Textbox;
+import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.PageLoaded;
+import com.orasi.utils.TestEnvironment;
+
+/**
+ * @summary Contains the fields and method for interacting with the NewTitlePage
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class NewTitlePage  extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
+
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(id = "title_name")
 	private Textbox txtTitle;
 	
@@ -23,31 +42,28 @@ public class NewTitlePage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public NewTitlePage(WebDriver driver) {
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public NewTitlePage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
 
-	public boolean pageLoaded() {
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, txtTitle);
-	}
-
-	public NewTitlePage initialize() {
-		return ElementFactory.initElements(driver, this.getClass());
-	}
-
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-
-	//method to create a new title
+	// *************************
+	// *** Page Interactions ***
+	// *************************
+	/**
+	 * @summary enters a new title and clicks the button to create it
+	 * @param newTitle - name of the title to create
+	 */
 	public void createNewTitle(String newTitle){
-		if(System.getProperty("browser").equalsIgnoreCase("safari")){
+		if(getBrowserUnderTest().equalsIgnoreCase("safari")){
 			txtTitle.set(newTitle);	
 		}else{
 			txtTitle.safeSet(newTitle);
 		}
 		btnCreateTitle.click();
 	}
-
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="testCreateNewDept" parallel="false">
+	<test name="testCreateNewDept">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="STAGING" />
+		<parameter name="runLocation" value="local" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="windows" />
+		<classes>
+			<class name="com.orasi.bluesource.TestAddNewDept" />
+		</classes>
+	</test> <!-- testCreateNewDept -->
+</suite> <!-- testCreateNewDept -->

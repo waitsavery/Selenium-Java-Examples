@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -45,6 +46,7 @@ public class PostsCRUD {
 	}
 	
 	//@Test
+	@SuppressWarnings("unused")
 	public void testGETWithParameters() throws ClientProtocolException, IOException, URISyntaxException{
 		//http://jsonplaceholder.typicode.com/comments?postId=1&id=1
 		URI uri = new URIBuilder()
@@ -66,6 +68,7 @@ public class PostsCRUD {
 	}
 	
 	//@Test
+	@SuppressWarnings("unused")
 	public void testGET() throws ClientProtocolException, IOException{
 		
 		//instantiate the base rest service class

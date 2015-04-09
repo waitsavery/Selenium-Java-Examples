@@ -1,21 +1,28 @@
 package com.orasi.bluesource;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Reporter;
 
-import com.orasi.utils.PageLoaded;
 import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.TestEnvironment;
 
-public class AddNewEmployeePage{
-
-	private WebDriver driver;
+/**
+ * @summary Contains the fields and method for interacting with the AddNewEmployeePage
+ * @author Jessica Marshall
+ *
+ */
+public class AddNewEmployeePage extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
 	private StringBuffer verificationErrors = new StringBuffer();
 
-	//All the page elements:
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(id = "employee_username")	
 	private Textbox txtUsername;
 	
@@ -61,26 +68,36 @@ public class AddNewEmployeePage{
 	// *********************
 	// ** Build page area **
 	// *********************
-	public AddNewEmployeePage(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public AddNewEmployeePage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
 	}
-	
-	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, txtUsername); 
-		  
-	}
-	
-	public AddNewEmployeePage initialize() {
-		return ElementFactory.initElements(driver,
-				this.getClass());       
-	 }
 
-	// *****************************************
-	// ***Page Interactions ***
-	// *****************************************
-	
-	//adds a new employee on the new employee page
+	// *************************
+	// *** Page Interactions ***
+	// *************************	
+
+	/**
+	 * @summary adds an employee to an already existing employee roster
+	 * @param username - new employee username
+	 * @param firstName - new employee first name
+	 * @param lastName - new employee last name
+	 * @param title - new employee title
+	 * @param role - new employee role
+	 * @param manager - new employee manager
+	 * @param status - new employee status
+	 * @param location - new employee location
+	 * @param startDate - new employee start date
+	 * @param cellPhone - new employee cell phone number
+	 * @param officePhone - new employee office phone number
+	 * @param email - new employee email address
+	 * @param dept - new employee department
+	 * @throws Exception
+	 */
 	public void addEmployee(String username, String firstName, String lastName, String title, String role, String manager,
 							String status, String location, String startDate, String cellPhone, String officePhone, 
 							String email, String dept) throws Exception {

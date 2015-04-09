@@ -13,11 +13,24 @@ import com.orasi.core.interfaces.Link;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
 import com.orasi.utils.Sleeper;
-public class DepartmentsPage {
-	
-	private WebDriver driver;
-	
-	//All the page elements
+import com.orasi.utils.TestEnvironment;
+
+/**
+ * @summary Contains the fields and method for interacting with the DepartmentsPage
+ * @author Jessica Marshall
+ *
+ */
+@SuppressWarnings("unused")
+public class DepartmentsPage extends com.orasi.utils.TestEnvironment{
+	// *******************
+	// *** Page Fields ***
+	// *******************
+	private int loopCounter = 0;
+	private int timeout = getDefaultTestTimeout();
+
+	// *********************
+	// *** Page Elements ***
+	// *********************
 	@FindBy(linkText = "Add Department")
 	private Link lnkAddDept;
 	
@@ -26,45 +39,52 @@ public class DepartmentsPage {
 
 	@FindBy(css = ".alert-success.alert-dismissable")
 	private Label lblSuccessMsg;
-	
-	//Constructor
-	public DepartmentsPage(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
-	}
-	
-	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, lnkAddDept); 
-		  
-	}
-	
-	public DepartmentsPage initialize() {
-		return ElementFactory.initElements(driver,
-				this.getClass());       
-	 }
-	
 
-	//Methods
+	// *********************
+	// ** Build page area **
+	// *********************
+	/**
+	 * @summary constructor to instantiate the class
+	 * @param te - TestEnvironment object containing, amongst other things, the WebDriver for the test, application, operating system, browser, etc
+	 */
+	public DepartmentsPage(TestEnvironment te){
+		super(te);
+		ElementFactory.initElements(getDriver(), this);  
+	}
+
+	// *************************
+	// *** Page Interactions ***
+	// *************************
 	
-	//click add dept link
 	public void clickAddDeptLink(){
 		lnkAddDept.click();
 	}
 	
+	/**
+	 * @summary determines if the title header is displayed
+	 * @return boolean; true if displayed, false otherwise
+	 */
 	public boolean isTitleHeaderDisplayed(){
 		return lblTitle.isDisplayed();
 	}
 	
-	//return if the success message is displayed
+	/**
+	 * @summary determines if the success message is displayed
+	 * @return boolean; true if displayed, false otherwise
+	 */
 	public boolean isSuccessMsgDisplayed(){
 	    Sleeper.sleep(1000);
 		return lblSuccessMsg.isDisplayed();
 	}
 	
-	//search page for a dept, return if displayed
+	/**
+	 * @summary searches a webtable for a given department name
+	 * @param dept - department name for which to search
+	 * @return boolean; true if it is found, false otherwise
+	 */
 	public boolean searchTableByDept(String dept){
 		//Get all the rows in the table by CSS
-		List<WebElement> elementList = driver.findElements(By.cssSelector(".list-group-item"));
+		List<WebElement> elementList = getDriver().findElements(By.cssSelector(".list-group-item"));
 		for(WebElement element:elementList){
 			//if it matches the title, then return true
 			if(element.getText().contains(dept)){
@@ -75,9 +95,14 @@ public class DepartmentsPage {
 		return false;
 	}
 	
+	/**
+	 * @summary searches a webtable for a given department name
+	 * @param dept - department name for which to search
+	 * @return boolean; true if it is found, false otherwise
+	 */
 	public boolean deleteDept(String dept){
 		//Get all the rows in the table by CSS
-		List<WebElement> elementList = driver.findElements(By.cssSelector(".list-group-item"));
+		List<WebElement> elementList = getDriver().findElements(By.cssSelector(".list-group-item"));
 		for(WebElement element:elementList){
 			
 			//if it matches the title, then click on the trash element
@@ -89,14 +114,11 @@ public class DepartmentsPage {
 				element.findElement(By.cssSelector("a[data-method = 'delete']")).click();
 				
 				//accept the alert that pops up
-				Alert alert = driver.switchTo().alert();
+				Alert alert = getDriver().switchTo().alert();
 				alert.accept();
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	
-
 }
